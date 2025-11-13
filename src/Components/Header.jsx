@@ -2,7 +2,7 @@ import logo from "../assets/images.png";
 import userIcon from "../assets/user.png";
 import { useContext, useState } from "react";
 import { AuthContext } from "../provider/AuthProvider";
-import { Link } from "react-router"; // ✅ react-router-dom import
+import { Link } from "react-router"; // ✅ ঠিক করা
 import { toast } from "react-toastify";
 import { Tooltip } from "react-tooltip";
 import "react-tooltip/dist/react-tooltip.css";
@@ -22,7 +22,6 @@ const Header = () => {
 
   return (
     <div className="navbar bg-base-100 shadow-sm px-4 py-3 relative">
-      {/* Logo + BD Clean Text */}
       <div className="navbar-start flex items-center gap-3">
         <Link to="/" className="flex items-center gap-3">
           <img
@@ -36,7 +35,7 @@ const Header = () => {
         </Link>
       </div>
 
-      {/* Hamburger menu for small devices */}
+      {/* Mobile menu */}
       <div className="md:hidden ml-auto relative">
         <button
           className="btn btn-ghost text-3xl"
@@ -78,9 +77,6 @@ const Header = () => {
             ) : (
               <>
                 <li>
-                  <Link to="/issues" onClick={() => setShowMenu(false)}>Issues</Link>
-                </li>
-                <li>
                   <Link to="/auth/login" onClick={() => setShowMenu(false)}>Login</Link>
                 </li>
                 <li>
@@ -92,9 +88,9 @@ const Header = () => {
         )}
       </div>
 
-      {/* Desktop + Medium Devices Menu + Avatar */}
+      {/* Desktop menu */}
       <div className="navbar-end hidden md:flex items-center gap-4">
-        <ul className="menu menu-horizontal px-1 font-semibold text-green-700 flex flex-row gap-3 md:gap-4 lg:gap-6 text-sm md:text-sm lg:text-base">
+        <ul className="menu menu-horizontal px-1 font-semibold text-green-700 flex flex-row gap-4 text-base">
           <li><Link to="/">Home</Link></li>
           {user ? (
             <>
@@ -106,32 +102,30 @@ const Header = () => {
             </>
           ) : (
             <>
-              <li><Link to="/issues">Issues</Link></li>
               <li><Link to="/auth/login">Login</Link></li>
               <li><Link to="/auth/register">Register</Link></li>
             </>
           )}
         </ul>
 
-        {/* Avatar + Logout */}
         {user && (
           <div className="relative ml-3">
             <img
               id="user-avatar"
               src={user.photoURL || userIcon}
-              alt="User"
-              className="w-8 h-8 sm:w-10 sm:h-10 object-cover rounded-full cursor-pointer"
+              alt={user.displayName || user.email}
+              className="w-10 h-10 object-cover rounded-full cursor-pointer"
               onClick={() => setShowLogout(!showLogout)}
             />
             <Tooltip
               anchorId="user-avatar"
               place="top"
-              content={user.displayName || user.email}
+              content={`${user.displayName || "No Name"} | ${user.email}`}
             />
             {showLogout && (
               <button
                 onClick={handleLogOut}
-                className="btn bg-green-700 px-4 sm:px-6 md:px-6 text-white absolute right-0 mt-2"
+                className="btn bg-green-700 px-4 text-white absolute right-0 mt-2"
               >
                 Log Out
               </button>

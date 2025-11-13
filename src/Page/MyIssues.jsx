@@ -1,12 +1,11 @@
-// MyIssues.jsx
 import React, { useEffect, useState, useContext } from "react";
 import { AuthContext } from "../provider/AuthProvider";
 import "animate.css";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import IssueCard from "../components/IssueCard";
-import Modal from "../components/Modal";
+import Modal from "../Components/Modal";
 
 const MyIssues = () => {
   const { user } = useContext(AuthContext);
@@ -31,7 +30,10 @@ const MyIssues = () => {
     fetch(`http://localhost:5000/myissues?email=${user.email}`)
       .then((res) => res.json())
       .then((data) => setIssues(data))
-      .catch((err) => console.error(err));
+      .catch((err) => {
+        console.error(err);
+        toast.error("Failed to fetch issues");
+      });
   }, [user]);
 
   const openUpdateModal = (issue) => {
@@ -52,45 +54,51 @@ const MyIssues = () => {
 
   const closeModal = () => setModalType("");
 
-  const handleUpdateSubmit = async () => {
-    try {
-      const res = await fetch(`http://localhost:5000/models/${selectedIssue._id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-      if (res.ok) {
+  const handleUpdateSubmit = () => {
+    fetch(`http://localhost:5000/models/${selectedIssue._id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData),
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Update failed");
+        return res.json();
+      })
+      .then(() => {
         setIssues((prev) =>
           prev.map((i) => (i._id === selectedIssue._id ? { ...i, ...formData } : i))
         );
         toast.success("Issue updated successfully!");
         closeModal();
-      }
-    } catch (err) {
-      console.error(err);
-      toast.error("Failed to update issue");
-    }
+      })
+      .catch((err) => {
+        console.error(err);
+        toast.error("Failed to update issue");
+      });
   };
 
-  const handleDeleteConfirm = async () => {
-    try {
-      const res = await fetch(`http://localhost:5000/models/${selectedIssue._id}`, {
-        method: "DELETE",
-      });
-      if (res.ok) {
+  const handleDeleteConfirm = () => {
+    fetch(`http://localhost:5000/models/${selectedIssue._id}`, { method: "DELETE" })
+      .then((res) => {
+        if (!res.ok) throw new Error("Delete failed");
+        return res.json();
+      })
+      .then(() => {
         setIssues((prev) => prev.filter((i) => i._id !== selectedIssue._id));
         toast.success("Issue deleted successfully!");
         closeModal();
-      }
-    } catch (err) {
-      console.error(err);
-      toast.error("Failed to delete issue");
-    }
+      })
+      .catch((err) => {
+        console.error(err);
+        toast.error("Failed to delete issue");
+      });
   };
 
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
+      <ToastContainer position="top-right" autoClose={3000} />
       <h2 className="text-2xl font-bold mb-6 text-gray-800">My Issues</h2>
+
       {issues.length === 0 ? (
         <p className="text-gray-500">No issues found.</p>
       ) : (
@@ -106,7 +114,6 @@ const MyIssues = () => {
         </div>
       )}
 
-      {/* Modal */}
       {modalType && (
         <Modal
           type={modalType}

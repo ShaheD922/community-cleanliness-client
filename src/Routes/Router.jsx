@@ -1,13 +1,14 @@
-import { createBrowserRouter } from "react-router"; // ✅ react-router-dom
+import { createBrowserRouter } from "react-router"; // ✅ fix
 import HomeLayout from "../layouts/HomeLayout";
 import AuthLayout from "../layouts/AuthLayout";
-import HomePage from "../Page/HomePage"; // <-- import your HomePage
+import HomePage from "../Page/HomePage";
 import Login from "../Page/Login";
 import Register from "../Page/Register";
 import ErrorPage from "../Page/ErrorPage";
 import AllIssues from "../Page/AllIssues";
 import AddIssue from "../Page/AddIssue";
 import MyIssues from "../Page/MyIssues";
+import Profile from "../Page/Profile";
 import MyContribution from "../Page/MyContribution";
 import IssueDetails from "../Page/IssueDetails";
 import PrivateRoute from "../provider/PrivateRoute";
@@ -17,7 +18,7 @@ const router = createBrowserRouter([
     path: "/",
     element: <HomeLayout />,
     children: [
-      { path: "/", element: <HomePage /> }, // <-- add this
+      { path: "/", element: <HomePage /> },
       {
         path: "all-issues",
         element: (
@@ -55,6 +56,14 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <IssueDetails />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "profile",
+        element: (
+          <PrivateRoute>
+            <Profile />
           </PrivateRoute>
         ),
       },
