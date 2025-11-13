@@ -4,13 +4,12 @@ import "animate.css";
 const Modal = ({ type, issue, formData, setFormData, onClose, onUpdate, onDelete }) => {
   const [animateOut, setAnimateOut] = useState(false);
 
-  // Lock background scroll (and Swiper scroll)
+  
   useEffect(() => {
     const originalStyle = window.getComputedStyle(document.body).overflow;
-    document.body.style.overflow = "hidden"; // disable background scroll
-
+    document.body.style.overflow = "hidden"; 
     return () => {
-      document.body.style.overflow = originalStyle; // restore on close
+      document.body.style.overflow = originalStyle; 
     };
   }, []);
 
@@ -25,9 +24,9 @@ const Modal = ({ type, issue, formData, setFormData, onClose, onUpdate, onDelete
   return (
     <div
       className="fixed inset-0 z-[9999] flex items-center justify-center"
-      onWheel={(e) => e.stopPropagation()} // Prevent background scroll
+      onWheel={(e) => e.stopPropagation()}
     >
-      {/* Backdrop with blur effect */}
+     
       <div
         className="absolute inset-0 bg-black/40 backdrop-blur-sm transition-all duration-300"
         onClick={handleClose}
@@ -46,7 +45,7 @@ const Modal = ({ type, issue, formData, setFormData, onClose, onUpdate, onDelete
         }`}
         onWheel={(e) => e.stopPropagation()}
       >
-        {/* Update Modal */}
+       
         {type === "update" && (
           <>
             <h3 className="text-2xl font-bold mb-4 text-gray-800 text-center">
@@ -99,7 +98,7 @@ const Modal = ({ type, issue, formData, setFormData, onClose, onUpdate, onDelete
           </>
         )}
 
-        {/* Delete Modal */}
+  
         {type === "delete" && (
           <>
             <h3 className="text-2xl font-bold mb-3 text-center text-gray-800">
