@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Navigate, useLocation } from "react-router"; // ✅ fix
+import { Navigate, useLocation } from "react-router"; 
 import { AuthContext } from "./AuthProvider";
 import LoadingPage from "../Components/LoadingPage";
 
@@ -15,3 +15,4 @@ const PrivateRoute = ({ children }) => {
 };
 
 export default PrivateRoute;
+//

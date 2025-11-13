@@ -1,16 +1,39 @@
-# React + Vite
+# 🌍 Community Clean Portal
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A full-stack MERN (MongoDB, Express, React, Node.js) web application that empowers users to **report, track, and manage community issues** such as road damage, garbage collection, water leakage, and more. Admins can view and resolve submitted issues to improve community hygiene and safety.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Features
 
-## React Compiler
+✅ **User Authentication**
+- Secure login and registration using Firebase Auth (or JWT)
+- Private routes for user dashboards
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+✅ **Report Issues**
+- Users can submit issues with title, category, description, image, and location  
+- Data stored securely in MongoDB
 
-## Expanding the ESLint configuration
+✅ **My Issues Page**
+- Logged-in users can view, update, and delete their own reports  
+- Status change via dropdown (Ongoing / Ended)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+✅ **Admin Dashboard**
+- Manage all issues  
+- Approve or mark as resolved  
+
+✅ **Community Stats**
+- Dynamic charts showing resolved vs pending issues
+
+---
+
+## 🧩 Tech Stack
+
+| Category | Technologies |
+|-----------|--------------|
+| Frontend | React, Tailwind CSS, React Router |
+| Backend | Node.js, Express.js |
+| Database | MongoDB Atlas |
+| Authentication | Firebase Auth / JWT |
+| Deployment | Vercel (Client) & Render / Railway (Server) |
+//
