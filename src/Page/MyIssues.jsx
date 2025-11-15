@@ -3,15 +3,17 @@ import { AuthContext } from "../provider/AuthProvider";
 import "animate.css";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Zoom } from "react-awesome-reveal";
+import { Typewriter } from "react-simple-typewriter";
 
-import IssueCard from "../components/IssueCard";
+import IssueCard from "../Components/IssueCard";
 import Modal from "../Components/Modal";
 
 const MyIssues = () => {
   const { user } = useContext(AuthContext);
   const [issues, setIssues] = useState([]);
   const [selectedIssue, setSelectedIssue] = useState(null);
-  const [modalType, setModalType] = useState(""); // "update" or "delete"
+  const [modalType, setModalType] = useState("");
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -19,12 +21,10 @@ const MyIssues = () => {
     status: "ongoing",
   });
 
-  // Lock scroll when modal open
   useEffect(() => {
     document.body.style.overflow = modalType ? "hidden" : "auto";
   }, [modalType]);
 
-  // Fetch user issues
   useEffect(() => {
     if (!user?.email) return;
     fetch(`http://localhost:5000/myissues?email=${user.email}`)
@@ -66,7 +66,9 @@ const MyIssues = () => {
       })
       .then(() => {
         setIssues((prev) =>
-          prev.map((i) => (i._id === selectedIssue._id ? { ...i, ...formData } : i))
+          prev.map((i) =>
+            i._id === selectedIssue._id ? { ...i, ...formData } : i
+          )
         );
         toast.success("Issue updated successfully!");
         closeModal();
@@ -78,7 +80,9 @@ const MyIssues = () => {
   };
 
   const handleDeleteConfirm = () => {
-    fetch(`http://localhost:5000/models/${selectedIssue._id}`, { method: "DELETE" })
+    fetch(`http://localhost:5000/models/${selectedIssue._id}`, {
+      method: "DELETE",
+    })
       .then((res) => {
         if (!res.ok) throw new Error("Delete failed");
         return res.json();
@@ -97,10 +101,21 @@ const MyIssues = () => {
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
       <ToastContainer position="top-right" autoClose={3000} />
-      <h2 className="text-2xl font-bold mb-6 text-gray-800">My Issues</h2>
+
+      <Zoom>
+        <h2 className="text-3xl md:text-4xl font-bold mb-6 text-center text-green-700">
+          <Typewriter
+            words={["My Issues"]}
+            loop={1}
+            cursor
+            cursorStyle=""
+            typeSpeed={100}
+          />
+        </h2>
+      </Zoom>
 
       {issues.length === 0 ? (
-        <p className="text-gray-500">No issues found.</p>
+        <p className="text-gray-500 text-center">No issues found.</p>
       ) : (
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {issues.map((issue) => (
