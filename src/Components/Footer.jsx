@@ -70,7 +70,7 @@ const Footer = () => {
     <footer className="bg-[#1A1A2E] text-white pt-16 pb-8 border-t border-indigo-800 font-[Inter]">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-5 gap-12 lg:gap-16">
-          {/* Company Info with Zoom animation */}
+        
           <Zoom>
             <div className="md:col-span-2 space-y-4">
               <h2 className="text-3xl font-extrabold flex items-center">
