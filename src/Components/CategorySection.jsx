@@ -34,7 +34,7 @@ const CategorySection = () => {
 
   if (selectedCategory) {
 
-    
+
     return (
       <div className="p-6 flex justify-center items-center min-h-[80vh] bg-white">
         <Zoom duration={800}>
@@ -118,3 +118,4 @@ const CategorySection = () => {
 };
 
 export default CategorySection;
+//
