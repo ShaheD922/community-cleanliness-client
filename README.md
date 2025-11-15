@@ -36,4 +36,3 @@ A full-stack MERN (MongoDB, Express, React, Node.js) web application that empowe
 | Database | MongoDB Atlas |
 | Authentication | Firebase Auth / JWT |
 | Deployment | Vercel (Client) & Render / Railway (Server) |
-//
