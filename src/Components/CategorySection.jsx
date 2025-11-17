@@ -33,12 +33,10 @@ const CategorySection = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
 
   if (selectedCategory) {
-
-
     return (
-      <div className="p-6 flex justify-center items-center min-h-[80vh] bg-white">
+      <div className="p-6 flex justify-center items-center border-gray-800 rounded-4xl min-h-[80vh] bg-white dark:bg-gray-800 transition-colors duration-500">
         <Zoom duration={800}>
-          <div className="bg-white rounded-2xl shadow-xl p-6 max-w-3xl w-full">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 max-w-3xl w-full transition-colors duration-500">
             <div className="flex flex-col md:flex-row gap-6">
               <img
                 src={selectedCategory.image}
@@ -47,10 +45,10 @@ const CategorySection = () => {
               />
               <div className="flex flex-col justify-between w-full">
                 <div>
-                  <h2 className="text-2xl font-bold text-green-700 mb-3">
+                  <h2 className="text-2xl font-bold text-green-700 dark:text-green-400 mb-3">
                     {selectedCategory.name}
                   </h2>
-                  <p className="text-gray-700 leading-relaxed text-justify">
+                  <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-justify">
                     {selectedCategory.description}
                   </p>
                 </div>
@@ -60,7 +58,7 @@ const CategorySection = () => {
                     className="bg-green-600 text-white px-5 py-2 rounded-lg shadow hover:bg-green-700 transition-all duration-300"
                     onClick={() => setSelectedCategory(null)}
                   >
-                     Back →
+                    Back →
                   </button>
                 </div>
               </div>
@@ -71,11 +69,10 @@ const CategorySection = () => {
     );
   }
 
-
   return (
-    <section className="my-10 max-w-6xl mx-auto px-4 bg-white">
+    <section className="my-10 max-w-6xl mx-auto px-4 bg-white border-gray-800 rounded-4xl dark:bg-gray-800 transition-colors duration-500">
       <div>
-        <h2 className="text-3xl font-bold mb-8 text-green-700 text-center">
+        <h2 className="text-3xl font-bold mb-8 text-green-600 text-center dark:text-green-600">
           <Typewriter
             words={["Categories"]}
             loop={1}
@@ -89,17 +86,17 @@ const CategorySection = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
         {categories.map((cat, i) => (
           <Zoom key={i} duration={700} delay={i * 100} triggerOnce>
-            <div className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 hover:scale-[1.02] cursor-pointer">
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 hover:scale-[1.02] cursor-pointer transition-colors duration-500">
               <img
                 src={cat.image}
                 alt={cat.name}
                 className="w-full h-44 object-cover rounded-t-xl"
               />
               <div className="p-4 flex flex-col items-center text-center">
-                <h3 className="font-semibold text-lg mb-2 text-gray-800">
+                <h3 className="font-semibold text-lg mb-2 text-gray-800 dark:text-gray-200">
                   {cat.name}
                 </h3>
-                <p className="text-gray-600 text-sm mb-4 line-clamp-4">
+                <p className="text-gray-600 dark:text-gray-300 text-sm mb-4 line-clamp-4">
                   {cat.description}
                 </p>
                 <button
