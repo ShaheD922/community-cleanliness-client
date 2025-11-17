@@ -99,11 +99,11 @@ const MyIssues = () => {
   };
 
   return (
-    <div className="p-6 bg-gray-100 min-h-screen">
+    <div className="p-6 min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200 transition-colors duration-500">
       <ToastContainer position="top-right" autoClose={3000} />
 
       <Zoom>
-        <h2 className="text-3xl md:text-4xl font-bold mb-6 text-center text-green-700">
+        <h2 className="text-3xl md:text-4xl font-bold mb-6 text-center text-green-700 dark:text-green-400">
           <Typewriter
             words={["My Issues"]}
             loop={1}
@@ -115,7 +115,9 @@ const MyIssues = () => {
       </Zoom>
 
       {issues.length === 0 ? (
-        <p className="text-gray-500 text-center">No issues found.</p>
+        <p className="text-gray-500 dark:text-gray-400 text-center">
+          No issues found.
+        </p>
       ) : (
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {issues.map((issue) => (

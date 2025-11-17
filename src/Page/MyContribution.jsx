@@ -12,7 +12,6 @@ const MyContribution = () => {
   const [contributions, setContributions] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  
   useEffect(() => {
     document.title = "My Contributions - BD Clean";
   }, []);
@@ -38,7 +37,6 @@ const MyContribution = () => {
       .finally(() => setLoading(false));
   }, [user]);
 
-  // PDF Download
   const downloadReport = () => {
     if (!contributions.length) {
       toast.info("No contributions to download!");
@@ -64,7 +62,7 @@ const MyContribution = () => {
 
   if (!contributions.length)
     return (
-      <p className="text-center mt-8 text-xl">
+      <p className="text-center mt-8 text-xl dark:text-gray-300">
         No contributions found!
       </p>
     );
@@ -73,14 +71,14 @@ const MyContribution = () => {
     <div className="p-4 max-w-6xl mx-auto">
       <ToastContainer position="top-right" autoClose={3000} />
 
-      <h2 className="text-3xl font-bold mb-6 text-center text-green-600">
+      <h2 className="text-3xl font-bold mb-6 text-center text-green-600 dark:text-green-600">
         My Contributions
       </h2>
 
       <div className="flex justify-end mb-4">
         <button
           onClick={downloadReport}
-          className="bg-green-500 text-white px-5 py-2 rounded hover:bg-green-600 transition"
+          className="bg-green-500 dark:bg-green-600 text-white px-5 py-2 rounded hover:bg-green-600 dark:hover:bg-green-700 transition"
         >
           Download Report
         </button>
@@ -90,24 +88,23 @@ const MyContribution = () => {
         {contributions.map((c) => (
           <motion.div
             key={c._id}
-            className="bg-white rounded-lg shadow-lg p-5 transform transition hover:-translate-y-2 hover:shadow-2xl flex flex-col items-center"
+            className="bg-white dark:bg-gray-800 rounded-lg shadow-lg dark:shadow-gray-900 p-5 transform transition hover:-translate-y-2 hover:shadow-2xl flex flex-col items-center"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-       
             <img
               src={c.image || "https://via.placeholder.com/100"}
               alt={c.name}
               className="w-20 h-20 rounded-full object-cover mb-3"
             />
 
-            <p className="font-bold text-xl mb-1">Name: {c.name}</p>
-            <p className="font-bold text-gray-700">Amount: {c.amount} $</p>
-            <p className="font-bold text-gray-700">
+            <p className="font-bold text-xl mb-1 text-gray-800 dark:text-gray-100">Name: {c.name}</p>
+            <p className="font-bold text-gray-700 dark:text-gray-300">Amount: {c.amount} $</p>
+            <p className="font-bold text-gray-700 dark:text-gray-300">
               Date: {new Date(c.date).toLocaleString()}
             </p>
-            <p className="mt-2 text-gray-600">{c.additionalInfo || "-"}</p>
+            <p className="mt-2 text-gray-600 dark:text-gray-400">{c.additionalInfo || "-"}</p>
           </motion.div>
         ))}
       </div>
