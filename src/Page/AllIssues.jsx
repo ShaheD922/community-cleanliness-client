@@ -6,7 +6,7 @@ import LoadingPage from "../Components/LoadingPage";
 const AllIssues = () => {
   const [issues, setIssues] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [showAll, setShowAll] = useState(false); // ✅ show all toggle
+  const [showAll, setShowAll] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -37,10 +37,10 @@ const AllIssues = () => {
 
   return (
     <div className="p-6">
-      {/* Heading */}
-      <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">All Issues</h1>
+     
+      <h1 className="text-3xl font-bold text-green-700 mb-6 text-center">All Issues</h1>
 
-      {/* Issues Grid */}
+ 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {displayedIssues.map(issue => (
           <motion.div
@@ -74,7 +74,7 @@ const AllIssues = () => {
         ))}
       </div>
 
-      {/* See More Button */}
+      
       {!showAll && issues.length > 6 && (
         <div className="text-center mt-8">
           <button

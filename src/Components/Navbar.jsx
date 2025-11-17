@@ -7,7 +7,8 @@ import { Navigation, Pagination, Autoplay } from "swiper/modules";
 
 const Navbar = () => {
   return (
-    <div className="w-full mt-4">
+    <div className="w-full mt-70 md:mt-4"> 
+    
       <Swiper
         modules={[Navigation, Pagination, Autoplay]}
         spaceBetween={30}
