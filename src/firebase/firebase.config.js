@@ -1,8 +1,8 @@
-// Import the functions you need from the SDKs you need
+
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 
-// Your web app's Firebase configuration (from .env file)
+
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_apiKey,
   authDomain: import.meta.env.VITE_authDomain,
