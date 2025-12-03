@@ -25,15 +25,28 @@ const MyIssues = () => {
     document.body.style.overflow = modalType ? "hidden" : "auto";
   }, [modalType]);
 
-  useEffect(() => {
+  const fetchIssues = async () => {
     if (!user?.email) return;
-    fetch(`http://localhost:5000/myissues?email=${user.email}`)
-      .then((res) => res.json())
-      .then((data) => setIssues(data))
-      .catch((err) => {
-        console.error(err);
-        toast.error("Failed to fetch issues");
-      });
+    try {
+      const token = await user.getIdToken();
+      const res = await fetch(
+        `https://server-one-dusky-97.vercel.app/myissues?email=${user.email}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const data = await res.json();
+      setIssues(Array.isArray(data) ? data : []);
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to fetch issues");
+    }
+  };
+
+  useEffect(() => {
+    fetchIssues();
   }, [user]);
 
   const openUpdateModal = (issue) => {
@@ -54,48 +67,56 @@ const MyIssues = () => {
 
   const closeModal = () => setModalType("");
 
-  const handleUpdateSubmit = () => {
-    fetch(`http://localhost:5000/models/${selectedIssue._id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData),
-    })
-      .then((res) => {
-        if (!res.ok) throw new Error("Update failed");
-        return res.json();
-      })
-      .then(() => {
-        setIssues((prev) =>
-          prev.map((i) =>
-            i._id === selectedIssue._id ? { ...i, ...formData } : i
-          )
-        );
-        toast.success("Issue updated successfully!");
-        closeModal();
-      })
-      .catch((err) => {
-        console.error(err);
-        toast.error("Failed to update issue");
-      });
+  const handleUpdateSubmit = async () => {
+    try {
+      const token = await user.getIdToken();
+      const res = await fetch(
+        `https://server-one-dusky-97.vercel.app/models/${selectedIssue._id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(formData),
+        }
+      );
+      if (!res.ok) throw new Error("Update failed");
+      await res.json();
+      setIssues((prev) =>
+        prev.map((i) =>
+          i._id === selectedIssue._id ? { ...i, ...formData } : i
+        )
+      );
+      toast.success("Issue updated successfully!");
+      closeModal();
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to update issue");
+    }
   };
 
-  const handleDeleteConfirm = () => {
-    fetch(`http://localhost:5000/models/${selectedIssue._id}`, {
-      method: "DELETE",
-    })
-      .then((res) => {
-        if (!res.ok) throw new Error("Delete failed");
-        return res.json();
-      })
-      .then(() => {
-        setIssues((prev) => prev.filter((i) => i._id !== selectedIssue._id));
-        toast.success("Issue deleted successfully!");
-        closeModal();
-      })
-      .catch((err) => {
-        console.error(err);
-        toast.error("Failed to delete issue");
-      });
+  const handleDeleteConfirm = async () => {
+    try {
+      const token = await user.getIdToken();
+      const res = await fetch(
+        `https://server-one-dusky-97.vercel.app/models/${selectedIssue._id}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (!res.ok) throw new Error("Delete failed");
+      await res.json();
+      setIssues((prev) => prev.filter((i) => i._id !== selectedIssue._id));
+      toast.success("Issue deleted successfully!");
+      closeModal();
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to delete issue");
+    }
   };
 
   return (

@@ -6,6 +6,7 @@ import "jspdf-autotable";
 import "react-toastify/dist/ReactToastify.css";
 import LoadingPage from "../Components/LoadingPage"; 
 import { motion } from "framer-motion";
+import { getAuth } from "firebase/auth";
 
 const MyContribution = () => {
   const { user } = useContext(AuthContext);
@@ -19,22 +20,40 @@ const MyContribution = () => {
   useEffect(() => {
     if (!user?.email) return;
 
-    setLoading(true);
-    fetch(`http://localhost:5000/mycontribution?email=${user.email}`)
-      .then((res) => res.json())
-      .then((data) => {
+    const fetchContributions = async () => {
+      try {
+        setLoading(true);
+        const auth = getAuth();
+        const token = await auth.currentUser.getIdToken();
+
+        const res = await fetch(
+          `https://server-one-dusky-97.vercel.app/mycontribution?email=${user.email}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        if (!res.ok) throw new Error("Failed to fetch contributions");
+
+        const data = await res.json();
         const safeData = data.map((c) => ({
           ...c,
           name: c.contributorName || c.name || "Anonymous",
           image: c.image || user.photoURL || "https://via.placeholder.com/100",
         }));
         setContributions(safeData);
-      })
-      .catch((err) => {
+      } catch (err) {
         console.error(err);
         toast.error("Failed to fetch contributions");
-      })
-      .finally(() => setLoading(false));
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchContributions();
   }, [user]);
 
   const downloadReport = () => {
@@ -99,12 +118,18 @@ const MyContribution = () => {
               className="w-20 h-20 rounded-full object-cover mb-3"
             />
 
-            <p className="font-bold text-xl mb-1 text-gray-800 dark:text-gray-100">Name: {c.name}</p>
-            <p className="font-bold text-gray-700 dark:text-gray-300">Amount: {c.amount} $</p>
+            <p className="font-bold text-xl mb-1 text-gray-800 dark:text-gray-100">
+              Name: {c.name}
+            </p>
+            <p className="font-bold text-gray-700 dark:text-gray-300">
+              Amount: {c.amount} $
+            </p>
             <p className="font-bold text-gray-700 dark:text-gray-300">
               Date: {new Date(c.date).toLocaleString()}
             </p>
-            <p className="mt-2 text-gray-600 dark:text-gray-400">{c.additionalInfo || "-"}</p>
+            <p className="mt-2 text-gray-600 dark:text-gray-400">
+              {c.additionalInfo || "-"}
+            </p>
           </motion.div>
         ))}
       </div>

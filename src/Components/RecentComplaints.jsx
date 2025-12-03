@@ -7,7 +7,7 @@ const RecentComplaints = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("http://localhost:5000/models")
+    fetch("https://server-one-dusky-97.vercel.app/models")
       .then((res) => res.json())
       .then((data) => setIssues(data))
       .catch((err) => console.error(err));

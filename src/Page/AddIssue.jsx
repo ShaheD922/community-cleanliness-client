@@ -17,28 +17,41 @@ const AddIssue = () => {
     e.preventDefault();
     if (!user?.email) return alert("User email not found!");
 
-    const newIssue = {
-      title,
-      category,
-      location,
-      description,
-      image,
-      amount,
-      status: "ongoing",
-      date: new Date(),
-      email: user.email.toLowerCase(),
-    };
+    try {
+      const token = await user.getIdToken();
+      const newIssue = {
+        title,
+        category,
+        location,
+        description,
+        image,
+        amount,
+        status: "ongoing",
+        date: new Date(),
+        email: user.email.toLowerCase(),
+      };
 
-    const res = await fetch("http://localhost:5000/models", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(newIssue),
-    });
+      const res = await fetch(
+        "https://server-one-dusky-97.vercel.app/models",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(newIssue),
+        }
+      );
 
-    const data = await res.json();
-    if (data.insertedId) {
+      if (!res.ok) throw new Error("Failed to add issue");
+
+      const data = await res.json();
+
       toast.success("Issue added successfully!");
       navigate("/my-issues");
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to add issue. Please try again.");
     }
   };
 

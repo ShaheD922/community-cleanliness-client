@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { motion } from "framer-motion";
-import LoadingPage from "../Components/LoadingPage"; 
+import LoadingPage from "../Components/LoadingPage";
 
 const AllIssues = () => {
   const [issues, setIssues] = useState([]);
@@ -10,7 +10,7 @@ const AllIssues = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("http://localhost:5000/models")
+    fetch("https://server-one-dusky-97.vercel.app/models")
       .then(res => res.json())
       .then(data => {
         setIssues(data);
@@ -37,15 +37,13 @@ const AllIssues = () => {
 
   return (
     <div className="p-6">
-     
       <h1 className="text-3xl font-bold text-green-700 mb-6 text-center">All Issues</h1>
 
- 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {displayedIssues.map(issue => (
           <motion.div
             key={issue._id}
-            className="bg-white rounded-2xl shadow-md overflow-hidden cursor-pointer"
+            className="bg-white dark:bg-gray-800 rounded-2xl shadow-md overflow-hidden cursor-pointer flex flex-col"
             variants={cardVariants}
             initial="hidden"
             animate="visible"
@@ -56,16 +54,22 @@ const AllIssues = () => {
               alt={issue.title}
               className="w-full h-52 object-cover"
             />
-            <div className="p-4 flex flex-col justify-between h-full">
-              <div>
+            <div className="p-4 flex flex-col flex-1">
+              <div className="flex-1">
                 <h2 className="text-xl font-semibold text-gray-800">{issue.title}</h2>
-                <p className="text-gray-600 mt-1"><span className="font-bold">Category :</span> {issue.category}</p>
-                <p className="text-sm text-gray-500 mt-1"><span className="font-bold">Location :</span> {issue.location || "Unknown"}</p>
-                <p className="text-sm text-gray-500 mt-1"><span className="font-bold">Price : </span>${issue.amount || "none"}</p>
+                <p className="text-gray-400 mt-1">
+                  <span className="font-bold">Category :</span> {issue.category}
+                </p>
+                <p className="text-sm text-gray-400 mt-1">
+                  <span className="font-bold">Location :</span> {issue.location || "Unknown"}
+                </p>
+                <p className="text-sm text-gray-400 mt-1">
+                  <span className="font-bold">Price : </span>${issue.amount || "none"}
+                </p>
               </div>
               <button
                 onClick={() => navigate(`/issue/${issue._id}`)}
-                className="mt-4 w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition-colors duration-300"
+                className="mt-4 w-full bg-green-600 text-white p-2 rounded hover:bg-green-800 transition-colors duration-300"
               >
                 See Details
               </button>
@@ -74,7 +78,6 @@ const AllIssues = () => {
         ))}
       </div>
 
-      
       {!showAll && issues.length > 6 && (
         <div className="text-center mt-8">
           <button

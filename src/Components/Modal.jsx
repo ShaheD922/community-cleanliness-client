@@ -30,7 +30,7 @@ const Modal = ({ type, issue, formData, setFormData, onClose, onUpdate, onDelete
         onClick={handleClose}
       ></div>
 
-      {/* Modal content */}
+     
       <div
         className={`relative bg-white dark:bg-gray-800/95 backdrop-blur-md rounded-2xl shadow-2xl dark:shadow-gray-900 w-full max-w-md p-6 overflow-auto max-h-[90vh] z-[10000] animate__animated ${
           animateOut

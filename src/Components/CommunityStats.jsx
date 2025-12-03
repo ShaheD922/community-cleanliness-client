@@ -7,7 +7,7 @@ const CommunityStats = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:5000/stats")
+    fetch("https://server-one-dusky-97.vercel.app/stats")
       .then((res) => res.json())
       .then((data) => {
         setStats(data);
