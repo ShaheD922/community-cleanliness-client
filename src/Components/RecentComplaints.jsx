@@ -9,11 +9,26 @@ const RecentComplaints = () => {
   useEffect(() => {
     fetch("https://server-one-dusky-97.vercel.app/models")
       .then((res) => res.json())
-      .then((data) => setIssues(data))
+      .then((data) => {
+        console.log("API Data:", data);
+
+        
+        if (Array.isArray(data)) {
+          setIssues(data);
+        } else if (data && Array.isArray(data.models)) {
+          setIssues(data.models); 
+        } else {
+          setIssues([]);
+        }
+      })
       .catch((err) => console.error(err));
   }, []);
 
-  const displayedIssues = showAll ? issues : issues.slice(0, 9);
+  const displayedIssues = showAll
+    ? issues
+    : Array.isArray(issues)
+    ? issues.slice(0, 9)
+    : [];
 
   return (
     <section className="my-10 px-4 md:px-10">
@@ -27,7 +42,6 @@ const RecentComplaints = () => {
             key={issue._id}
             className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl shadow-md dark:shadow-gray-900 hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 overflow-hidden"
           >
-          
             {issue.image ? (
               <img
                 src={issue.image}
@@ -40,7 +54,6 @@ const RecentComplaints = () => {
               </div>
             )}
 
-           
             <div className="p-5">
               <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-2">
                 {issue.title || "Untitled Issue"}
